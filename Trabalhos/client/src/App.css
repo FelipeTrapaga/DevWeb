@@ -1,0 +1,16 @@
+.App {
+  display: flex;
+}
+
+.content {
+  margin-left: 260px; /* Espaço para a sidebar */
+  padding: 20px;
+  flex-grow: 1;
+}
+
+.content-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
