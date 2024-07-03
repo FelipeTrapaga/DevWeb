@@ -22,7 +22,9 @@ const App = () => {
         <Sidebar />
         <div className="content">
           <div className="content-wrapper">
-            <BookProvider> {/* Wrap everything inside BookProvider */}
+            <BookProvider> {
+              
+            }
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/add-book" element={<AddBookForm />} />
