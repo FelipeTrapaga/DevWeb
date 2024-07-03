@@ -1,35 +1,20 @@
-import React, { useState } from 'react';
-import API_URL from '../config';
+import React, { useState, useContext } from 'react';
+import { BookContext } from '../BookContext';
 
 const AddBookForm = () => {
+  const { addBook } = useContext(BookContext);
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [isbn, setIsbn] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const newBook = { title, author, isbn };
-
-    try {
-      const response = await fetch(`${API_URL}/books`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newBook),
-      });
-
-      if (response.ok) {
-        alert('Livro adicionado com sucesso!');
-        setTitle('');
-        setAuthor('');
-        setIsbn('');
-      } else {
-        alert('Erro ao adicionar o livro.');
-      }
-    } catch (error) {
-      alert('Erro ao adicionar o livro.');
-    }
+    addBook(newBook); // Adiciona o novo livro usando o contexto BookContext
+    setTitle('');
+    setAuthor('');
+    setIsbn('');
+    alert('Livro adicionado com sucesso!');
   };
 
   return (

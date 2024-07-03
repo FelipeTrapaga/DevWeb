@@ -1,43 +1,37 @@
-import React, { useState } from 'react';
-import API_URL from '../config';
+import React, { useState, useContext } from 'react';
+import { BookContext } from '../BookContext';
 
 const SearchBookForm = () => {
-  const [query, setQuery] = useState('');
-  const [results, setResults] = useState([]);
+  const { books } = useContext(BookContext);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
 
-  const handleSubmit = async (e) => {
+  const handleSearch = (e) => {
     e.preventDefault();
-
-    try {
-      const response = await fetch(`${API_URL}/books/search?q=${query}`);
-
-      if (response.ok) {
-        const data = await response.json();
-        setResults(data);
-      } else {
-        alert('Erro ao pesquisar livros.');
-      }
-    } catch (error) {
-      alert('Erro ao pesquisar livros.');
-    }
+    const results = books.filter(book =>
+      book.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setSearchResults(results);
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <h2>Pesquisar Livro</h2>
+      <h2>Pesquisar Livro</h2>
+      <form onSubmit={handleSearch}>
         <input
           type="text"
-          placeholder="Pesquisar"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          required
+          placeholder="Pesquisar por título"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
         <button type="submit">Pesquisar</button>
       </form>
+
       <ul>
-        {results.map((book) => (
-          <li key={book.id}>{book.title} - {book.author}</li>
+        {searchResults.map(book => (
+          <li key={book.isbn}>
+            {book.title} - {book.author}
+          </li>
         ))}
       </ul>
     </div>

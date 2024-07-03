@@ -3,7 +3,7 @@
 }
 
 .content {
-  margin-left: 200px; /* Espaço para a sidebar */
+  margin-left: 0px; /* Espaço para a sidebar */
   padding: 20px;
   flex-grow: 1;
 }
@@ -12,5 +12,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 80vh;
+}
+.logo {
+  width: 80px; /* Ajuste o tamanho do logotipo conforme necessário */
+  height: auto; /* Mantém a proporção */
+}
+.header {
+  position: absolute;
+  right: 10px; /* Ajusta a distância da direita */
 }
