@@ -1,35 +1,40 @@
 import React, { useState } from 'react';
+import API_URL from '../config';
 
 const RemoveBookForm = () => {
-  const [id, setId] = useState('');
+  const [bookId, setBookId] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`/api/books/${id}`, {
+      const response = await fetch(`${API_URL}/books/${bookId}`, {
         method: 'DELETE',
       });
 
-      if (!response.ok) {
-        throw new Error('Erro ao remover livro');
+      if (response.ok) {
+        alert('Livro removido com sucesso!');
+        setBookId('');
+      } else {
+        alert('Erro ao remover o livro.');
       }
-
-      setId('');
-      alert('Livro removido com sucesso!');
     } catch (error) {
-      console.error('Erro ao remover livro:', error);
+      alert('Erro ao remover o livro.');
     }
   };
 
   return (
-    <div className="form-container">
+    <form onSubmit={handleSubmit}>
       <h2>Remover Livro</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="text" value={id} onChange={(e) => setId(e.target.value)} placeholder="ID do Livro" required />
-        <button type="submit">Remover Livro</button>
-      </form>
-    </div>
+      <input
+        type="text"
+        placeholder="ID do Livro"
+        value={bookId}
+        onChange={(e) => setBookId(e.target.value)}
+        required
+      />
+      <button type="submit">Remover</button>
+    </form>
   );
 };
 

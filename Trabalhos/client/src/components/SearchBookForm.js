@@ -1,43 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import API_URL from '../config';
 
 const SearchBookForm = () => {
-  const [books, setBooks] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
 
-  useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const response = await fetch(`/api/books`);
-        if (!response.ok) {
-          throw new Error('Erro ao buscar livros');
-        }
-        const data = await response.json();
-        setBooks(data);
-      } catch (error) {
-        console.error('Erro ao buscar livros:', error);
-      }
-    };
-
-    fetchBooks();
-  }, []);
-
-  const handleSearch = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const filteredBooks = books.filter(book =>
-      book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      book.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      book.isbn.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    console.log(filteredBooks);
+
+    try {
+      const response = await fetch(`${API_URL}/books/search?q=${query}`);
+
+      if (response.ok) {
+        const data = await response.json();
+        setResults(data);
+      } else {
+        alert('Erro ao pesquisar livros.');
+      }
+    } catch (error) {
+      alert('Erro ao pesquisar livros.');
+    }
   };
 
   return (
-    <div className="form-container">
-      <h2>Pesquisar Livro</h2>
-      <form onSubmit={handleSearch}>
-        <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Buscar por título, autor ou ISBN" />
+    <div>
+      <form onSubmit={handleSubmit}>
+        <h2>Pesquisar Livro</h2>
+        <input
+          type="text"
+          placeholder="Pesquisar"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          required
+        />
         <button type="submit">Pesquisar</button>
       </form>
+      <ul>
+        {results.map((book) => (
+          <li key={book.id}>{book.title} - {book.author}</li>
+        ))}
+      </ul>
     </div>
   );
 };

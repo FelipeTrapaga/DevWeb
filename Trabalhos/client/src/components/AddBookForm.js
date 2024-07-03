@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import API_URL from '../config';
 
 const AddBookForm = () => {
   const [title, setTitle] = useState('');
@@ -7,39 +8,56 @@ const AddBookForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const newBook = { title, author, isbn };
 
     try {
-      const response = await fetch('/api/books', {
+      const response = await fetch(`${API_URL}/books`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ title, author, isbn }),
+        body: JSON.stringify(newBook),
       });
 
-      if (!response.ok) {
-        throw new Error('Erro ao adicionar livro');
+      if (response.ok) {
+        alert('Livro adicionado com sucesso!');
+        setTitle('');
+        setAuthor('');
+        setIsbn('');
+      } else {
+        alert('Erro ao adicionar o livro.');
       }
-
-      setTitle('');
-      setAuthor('');
-      setIsbn('');
-      alert('Livro adicionado com sucesso!');
     } catch (error) {
-      console.error('Erro ao adicionar livro:', error);
+      alert('Erro ao adicionar o livro.');
     }
   };
 
   return (
-    <div className="form-container">
+    <form onSubmit={handleSubmit}>
       <h2>Adicionar Livro</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Título" required />
-        <input type="text" value={author} onChange={(e) => setAuthor(e.target.value)} placeholder="Autor" required />
-        <input type="text" value={isbn} onChange={(e) => setIsbn(e.target.value)} placeholder="ISBN" required />
-        <button type="submit">Adicionar Livro</button>
-      </form>
-    </div>
+      <input
+        type="text"
+        placeholder="Título"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        required
+      />
+      <input
+        type="text"
+        placeholder="Autor"
+        value={author}
+        onChange={(e) => setAuthor(e.target.value)}
+        required
+      />
+      <input
+        type="text"
+        placeholder="ISBN"
+        value={isbn}
+        onChange={(e) => setIsbn(e.target.value)}
+        required
+      />
+      <button type="submit">Adicionar</button>
+    </form>
   );
 };
 
