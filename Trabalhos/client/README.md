@@ -4,6 +4,7 @@ Rodando o Projeto
 Para iniciar o servidor de desenvolvimento, use o seguinte comando:
 npm start
 Isso iniciará o aplicativo React em modo de desenvolvimento. Abra http://localhost:3000 para visualizá-lo no navegador.
+o login é "admin" e a senha é "password"
 
 Funcionalidades
 Adicionar Livro: Acesse a rota /add-book para adicionar um novo livro.
