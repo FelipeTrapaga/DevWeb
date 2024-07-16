@@ -5,37 +5,38 @@ import HomePage from './pages/HomePage';
 import AddBookForm from './components/AddBookForm';
 import SearchBookForm from './components/SearchBookForm';
 import RemoveBookForm from './components/RemoveBookForm';
+import LoginPage from './components/LoginPage'; // Importe a página de login
 
-import { BookProvider } from './BookContext'; // Importe o BookProvider
+import { BookProvider } from './BookContext';
+import { AuthProvider } from './AuthContext'; // Importe o AuthProvider
 
 import './App.css';
-import logo from '../src/imagens/logo.png'
+import logo from '../src/imagens/logo.png';
 import './App.css';
 
 const App = () => {
   return (
     <Router>
       <div className="App">
-      <div className="header">
+        <div className="header">
           <img src={logo} alt="Logo da sua aplicação" />
         </div>
-        <Sidebar />
-        <div className="content">
-          <div className="content-wrapper">
-            <BookProvider> {
-              
-            }
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/add-book" element={<AddBookForm />} />
-                <Route path="/remove-book" element={<RemoveBookForm />} />
-                <Route path="/search-book" element={<SearchBookForm />} />
-              </Routes>
-
-              
-            </BookProvider>
+        <AuthProvider>
+          <Sidebar />
+          <div className="content">
+            <div className="content-wrapper">
+              <BookProvider>
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/login" element={<LoginPage />} />
+                  <Route path="/add-book" element={<AddBookForm />} />
+                  <Route path="/remove-book" element={<RemoveBookForm />} />
+                  <Route path="/search-book" element={<SearchBookForm />} />
+                </Routes>
+              </BookProvider>
+            </div>
           </div>
-        </div>
+        </AuthProvider>
       </div>
     </Router>
   );

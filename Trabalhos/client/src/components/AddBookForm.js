@@ -5,43 +5,23 @@ const AddBookForm = () => {
   const { addBook } = useContext(BookContext);
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
-  const [isbn, setIsbn] = useState('');
+  const [year, setYear] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newBook = { title, author, isbn };
-    addBook(newBook); // Adiciona o novo livro usando o contexto BookContext
+    addBook(title, author, year);
     setTitle('');
     setAuthor('');
-    setIsbn('');
-    alert('Livro adicionado com sucesso!');
+    setYear('');
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Adicionar Livro</h2>
-      <input
-        type="text"
-        placeholder="Título"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        required
-      />
-      <input
-        type="text"
-        placeholder="Autor"
-        value={author}
-        onChange={(e) => setAuthor(e.target.value)}
-        required
-      />
-      <input
-        type="text"
-        placeholder="ISBN"
-        value={isbn}
-        onChange={(e) => setIsbn(e.target.value)}
-        required
-      />
-      <button type="submit">Adicionar</button>
+      <h1>Adicionar Livro</h1>
+      <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Titulo" />
+      <input type="text" value={author} onChange={(e) => setAuthor(e.target.value)} placeholder="Autor" />
+      <input type="text" value={year} onChange={(e) => setYear(e.target.value)} placeholder="Ano" />
+      <button type="submit">Adicionar Livro</button>
     </form>
   );
 };

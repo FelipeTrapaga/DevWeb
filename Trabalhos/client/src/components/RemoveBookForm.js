@@ -3,38 +3,27 @@ import { BookContext } from '../BookContext';
 
 const RemoveBookForm = () => {
   const { books, removeBook } = useContext(BookContext);
-  const [title, setTitle] = useState('');
-  const [removed, setRemoved] = useState(false);
+  const [bookId, setBookId] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const bookToRemove = books.find(book => book.title.toLowerCase() === title.toLowerCase());
-    
-    if (bookToRemove) {
-      removeBook(bookToRemove);
-      setRemoved(true);
-      setTitle('');
-    } else {
-      setRemoved(false);
-      alert('Livro não encontrado.');
-    }
+    removeBook(parseInt(bookId, 10));
+    setBookId('');
   };
 
   return (
-    <div>
-      <h2>Remover Livro</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Digite o título do livro a ser removido"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
-        <button type="submit">Remover</button>
-      </form>
-      {removed && <p>Livro removido com sucesso!</p>}
-    </div>
+    <form onSubmit={handleSubmit}>
+      <h1>Remover Livro</h1>
+      <select value={bookId} onChange={(e) => setBookId(e.target.value)}>
+        <option value="">Escolha um livro para remover</option>
+        {books.map((book) => (
+          <option key={book.id} value={book.id}>
+            {book.title} por {book.author} ({book.year})
+          </option>
+        ))}
+      </select>
+      <button type="submit">Remover Livro</button>
+    </form>
   );
 };
 
